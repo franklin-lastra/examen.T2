@@ -28,7 +28,8 @@ public class OrdenCompraLastraFranklin {
     private ProveedorLastraFranklin proveedor;
 
     @Column(name = "monto")
-    private Double monto;
+    private java.math.BigDecimal monto;
+    //private Double monto;
 
     @Column(name = "direccion_entrega")
     private String direccionEntrega;

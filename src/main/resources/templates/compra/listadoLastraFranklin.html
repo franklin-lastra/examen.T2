@@ -11,7 +11,7 @@
 </head>
 
 <body>
-	<div class="container mt-5">
+	<div class="container-fluid px-4 mt-5">
 		<div class="card shadow-lg">
 			<div class="card-body">
 				<div class="row">
@@ -19,12 +19,12 @@
 						<h1 class="card-title">Listado de órdenes de compra</h1>
 					</div>
 					<div class="col-md-2">
-						<a href="#" class="btn btn-success w-100"> <i class="fa-solid fa-plus"></i>
-							Nuevo
+						<a th:href="@{/compra/nuevoLastraFranklin}" class="btn btn-success w-100">
+							<i class="fa-solid fa-plus"></i> Nuevo
 						</a>
 					</div>
 				</div>
-				<div class="table-responsive" style="max-width: 1400px; overflow-x: auto;">
+				<div class="table-responsive" style="width: 100%; overflow-x: auto;">
 					<table class="table table-hover">
 						<thead class="table-dark text-center">
 							<tr>
@@ -40,17 +40,20 @@
 							</tr>
 						</thead>
 						<tbody class="table-secondary text-nowrap">
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+							<tr th:each="item : ${lstOrdenes}">
+								<td th:text="${item.nroOrden}" class="text-center align-middle"></td>
+								<td th:text="${item.fechaEntrega}" class="text-center align-middle"></td>
+								<td th:text="${item.direccionEntrega}" class="text-start align-middle"></td>
+								<td th:text="${item.proveedor.ruc + ' - ' + item.proveedor.razonSocial}" class="text-start align-middle"></td>
+								<td th:text="${item.proveedor.rubro.denominacion}" class="text-start align-middle"></td>
+								<td th:text="${item.proveedor.paginaWeb}" class="text-start align-middle"></td>
+								<td th:text="'S/. ' + ${item.monto}" class="text-end align-middle fw-bold"></td>
 								<td class="text-center align-middle">
-									<a href="#" class="btn btn-outline-primary" title="Editar">
+									<span th:if="${item.estado == 'P'}"class="badge bg-warning text-dark">Pendiente</span>
+									<span th:if="${item.estado == 'C'}" class="badge bg-success">Completado</span>
+								</td>
+								<td class="text-center align-middle">
+									<a th:href="@{/compra/edicion/{id}(id=${item.nroOrden})}" class="btn btn-outline-primary btn-sm" title="Editar">
 										<i class="fa-regular fa-pen-to-square"></i>
 									</a>
 								</td>
@@ -61,6 +64,10 @@
 			</div>
 		</div>
 	</div>
+
+	<th:block th:if="${alert != null}">
+		<div th:utext="${alert}"></div>
+	</th:block>
 </body>
 
 </html>
